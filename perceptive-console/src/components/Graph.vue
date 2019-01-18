@@ -64,6 +64,7 @@ export default {
     data : function(){
         let d = [["X", "Y"]];
         let darr = computeGraphData(this.variable, this.$store.getters.frames, this.graph_type);
+        this.chart_options.title = this.variable.name;
         return d.concat(darr);
     },
   }

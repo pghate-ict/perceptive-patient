@@ -26,7 +26,7 @@ mongoose.connect(MONGO_DB_URL + DATABASE_NAME,{
 
 
 const app = express();
-app.use(express.static('public'));
+app.use(express.static('./perceptive-console/dist/'));
 app.use(bodyParser.json());
 app.use(cors());
 
