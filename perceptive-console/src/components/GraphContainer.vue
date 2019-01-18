@@ -45,6 +45,12 @@ export default {
         is3D: true,
         backgroundColor: {
           fill: "transparent"
+        },
+        vAxis:{
+          viewWindow : {
+            max : 5,
+            min : 0
+          }
         }
       }
     };
