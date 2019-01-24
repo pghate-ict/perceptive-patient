@@ -31,7 +31,11 @@
           </v-layout>
         </v-flex>
         <v-flex md6 align-center justify-center>
-          <v-btn v-if="graphs_loaded" color="primary" @click="addExpressionThresholdVariable()">Add Threshold Variable</v-btn>
+          <v-btn
+            v-if="graphs_loaded"
+            color="primary"
+            @click="addExpressionThresholdVariable()"
+          >Add Threshold Variable</v-btn>
         </v-flex>
       </v-layout>
     </v-container>
@@ -57,7 +61,7 @@ export default {
       ExpressionTypes,
       variable_set: [],
       threshold_values: [],
-      graphs_loaded : false
+      graphs_loaded: false
     };
   },
   components: {
@@ -89,20 +93,19 @@ export default {
         case "ANGER":
           this.variable_set.push(
             this.findVariable("AU04"),
-            this.findVariable("AU05"),
-            this.findVariable("AU07"),
-            this.findVariable("AU23")
+            this.findVariable("AU05")
           );
-          this.threshold_values.push(0, 0, 0, 0);
+          this.threshold_values.push(0, 0);
           break;
 
         case "SAD":
           this.variable_set.push(
             this.findVariable("AU01"),
             this.findVariable("AU04"),
-            this.findVariable("AU15")
+            this.findVariable("AU15"),
+            this.findVariable("AU17")
           );
-          this.threshold_values.push(0, 0, 0);
+          this.threshold_values.push(0, 0, 0, 0);
           break;
 
         case "SURPRISE":
@@ -118,25 +121,69 @@ export default {
         case "DISGUST":
           this.variable_set.push(
             this.findVariable("AU09"),
-            this.findVariable("AU15"),
-            this.findVariable("AU16")
+            this.findVariable("AU10"),
+            this.findVariable("AU25"),
+            this.findVariable("AU26")
+          );
+          this.threshold_values.push(0, 0, 0, 0);
+          break;
+
+        case "DISTRESS":
+          this.variable_set.push(
+            this.findVariable("AU01"),
+            this.findVariable("AU02"),
+            this.findVariable("AU04")
           );
           this.threshold_values.push(0, 0, 0);
           break;
 
-        case "FEAR":
+        case "OFFTASK":
+          this.variable_set.push(
+            this.findVariable("AU01"),
+            this.findVariable("AU14"),
+            this.findVariable("AU20")
+          );
+          this.threshold_values.push(0, 0, 0);
+          break;
+
+        case "THINKING":
+          this.variable_set.push(this.findVariable("AU14"));
+          this.threshold_values.push(0);
+          break;
+
+        case "ENGAGEMENT":
+          this.variable_set.push(this.findVariable("AU02"));
+          this.threshold_values.push(0);
+          break;
+
+        case "CONFUSION":
           this.variable_set.push(
             this.findVariable("AU01"),
             this.findVariable("AU02"),
-            this.findVariable("AU04"),
-            this.findVariable("AU05"),
-            this.findVariable("AU07"),
-            this.findVariable("AU20"),
-            this.findVariable("AU26")
+            this.findVariable("AU14"),
+            this.findVariable("AU17")
           );
-          this.threshold_values.push(0, 0, 0, 0, 0, 0, 0);
+          this.threshold_values.push(0, 0, 0, 0);
           break;
+
+        case "FRUSTRATION":
+          this.variable_set.push(
+            this.findVariable("AU10"),
+            this.findVariable("AU25")
+          );
+          this.threshold_values.push(0, 0, 0, 0);
+          break;
+
+        case "DELIGHT":
+          this.variable_set.push(
+            this.findVariable("AU06"),
+            this.findVariable("AU10"),
+            this.findVariable("AU12")
+          );
+          this.threshold_values.push(0, 0, 0);
+        break;
       }
+      this.threshold_values = new Array(this.variable_set.length).fill(0);
       this.graphs_loaded = true;
     },
 
@@ -145,13 +192,12 @@ export default {
         return element.name === name;
       });
     }
-
   },
 
-  beforeUpdate(){
-    if(this.$refs.graphs){
+  beforeUpdate() {
+    if (this.$refs.graphs) {
       this.$refs.graphs.forEach((element, index) => {
-        if(this.variable_set[index].value > this.threshold_values[index]){
+        if (this.variable_set[index].value > this.threshold_values[index]) {
           element.chart_options.colors[0] = "red";
         } else {
           element.chart_options.colors[0] = "blue";

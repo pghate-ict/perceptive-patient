@@ -89,8 +89,13 @@ export const ExpressionTypes = {
   ANGER: 'anger',
   SURPRISE: 'surprise',
   DISGUST: 'disgust',
-  FEAR: 'fear',
-  REST: 'rest'
+  FRUSTRATION : 'frustration',
+  CONFUSION : 'confusion',
+  DELIGHT : 'delight',
+  ENGAGEMENT : 'engagement',
+  DISTRESS : 'distress',
+  THINKING : 'thinking',
+  OFFTASK : 'offtask'
 };
 
 

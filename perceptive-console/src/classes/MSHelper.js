@@ -11,7 +11,6 @@ class MSHelper{
             this.hasGetUserMedia = this.hasGetUserMedia.bind(this);
            
             this.enabled = false;
-    
             /*Canvas element to capture photos, created programatically*/
             this.canvas = document.createElement("canvas");
             this.video = document.createElement("video");
