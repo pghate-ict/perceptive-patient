@@ -36,6 +36,11 @@
             color="primary"
             @click="addExpressionThresholdVariable()"
           >Add Threshold Variable</v-btn>
+          <v-btn
+            v-if="graphs_loaded"
+            color="primary"
+            @click="tune()"
+            />
         </v-flex>
       </v-layout>
     </v-container>
@@ -46,6 +51,7 @@
 import VideoPlayer from "./VideoPlayer";
 import { ExpressionTypes, Configuration } from "../classes/Configuration";
 import Graph from "./Graph";
+import {saveAs} from 'file-saver';
 
 /* Delegate for SetInterval*/
 let openfaceRoutine = null;
@@ -58,6 +64,7 @@ export default {
         width: 400,
         height: 300
       },
+      current_expression : '',
       ExpressionTypes,
       variable_set: [],
       threshold_values: [],
@@ -75,6 +82,27 @@ export default {
 
     changeHandler(value, index) {
       this.threshold_values[index] = Number(value);
+    },
+
+    tune(){
+      //Save a json file with tuning variables
+      
+      
+      let expression_obj = {
+        expression : this.current_expression,
+        values : {}
+      };
+      
+      this.threshold_values.forEach((value, index)=>{
+        expression_obj.values[this.variable_set[index].name] = value;
+      });
+
+      let exp_blob = new Blob([JSONs.stringify(expression_obj)], {type:"application/json; charset=utf-8}"});
+      
+      saveAs(exp_blob, "expression_" + this.current_expression + "-" + Math.floor((Math.random()*1000)).toString() + ".json");
+
+      //console.log(expression_obj);
+
     },
     onExpressionSelect(exp) {
       //Reset Default Variables based on Expression from Dropdown
@@ -183,6 +211,7 @@ export default {
           this.threshold_values.push(0, 0, 0);
         break;
       }
+      this.current_expression = exp;
       this.threshold_values = new Array(this.variable_set.length).fill(0);
       this.graphs_loaded = true;
     },
@@ -195,7 +224,8 @@ export default {
   },
 
   beforeUpdate() {
-    if (this.$refs.graphs) {
+    //console.log(this.variable_set);
+    if (this.$refs.graphs && this.graphs_loaded && this.variable_set.length != 0) {
       this.$refs.graphs.forEach((element, index) => {
         if (this.variable_set[index].value > this.threshold_values[index]) {
           element.chart_options.colors[0] = "red";
