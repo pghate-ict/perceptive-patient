@@ -4,11 +4,12 @@ var express = require('express'),
       cors = require('cors'),
       mongoose = require('mongoose'),
       axios = require('axios');
+
       
 //Routes
 var configurations = require('./routes/configurations');
 var variables = require('./routes/variables');
-
+var aws = require('./routes/aws');
 //Database Variables
 const DATABASE_NAME = 'perceptive'
 const MONGO_DB_URL = 'mongodb://localhost:27017/';
@@ -33,6 +34,8 @@ app.use(cors());
 /* route middleware */
 app.use('/configurations', configurations);
 app.use('/variables',variables);
+app.use('/videos', aws);
+
 
 app.listen(4000, ()=> {
       console.log("Express Server Started");
