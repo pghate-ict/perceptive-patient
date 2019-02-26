@@ -14,7 +14,7 @@ class TimelineRow {
     Transcript of the event cycle
     */
     this.user_request = null;
-    this.patient_respone = null;
+    this.patient_response = null;
     this.user_response = null;
 
     /* Assessments */
@@ -25,3 +25,8 @@ class TimelineRow {
     this.user_perception = null;
   }
 }
+
+
+
+
+export default TimelineRow;

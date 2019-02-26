@@ -7,6 +7,7 @@ import {
 import Session from '../classes/Session';
 import User from '../classes/User';
 import FrameInfo from '../classes/FrameInfo';
+import TimelineRow from '../classes/TimelineRow';
 import {
   debug
 } from 'util';
@@ -20,7 +21,8 @@ export const store = new Vuex.Store({
     user: new User("TEST_USER"),
     session: new Session(),
     configuration: new Configuration(),
-    frames: []
+    frames: [],
+    events : [] //SPS Events
   },
 
   getters: {
@@ -35,6 +37,13 @@ export const store = new Vuex.Store({
   },
 
   mutations: {
+
+    ADD_EVENT: (state, payload) => {
+      if(payload){
+        state.events.push(payload);
+      }
+    },
+
     ADD_FRAME: (state, payload) => {
       if (state.frames.length >= 2 * 30) {
         state.frames.shift();

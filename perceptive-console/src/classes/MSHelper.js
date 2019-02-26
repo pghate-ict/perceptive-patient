@@ -26,6 +26,8 @@ class MSHelper {
       this.canvas.width = this.video.width;
       this.canvas.height = this.video.height;
 
+      this.dateStarted = null;
+
       
 
       this.stream = null;
@@ -101,6 +103,12 @@ class MSHelper {
   //Functions to start and stop recording to capture mp4 and store video file in database eventually.
   startRecorder(){
     this.recorder.startRecording();
+    this.dateStarted = new Date().getTime();
+  }
+
+  getCurrentRecorderTimestamp(){
+    var info = getInfo((new Date().getTime() - dateStarted)/1000);
+    return info;
   }
 
   async stopRecorder(){
@@ -108,6 +116,27 @@ class MSHelper {
     let blob = await this.recorder.getBlob();
     return blob;
   }
+
+  /* https://recordrtc.org/RecordRTC.html <-- Read the comments */
+  getInfo(secs) {
+    var hr = Math.floor(secs / 3600);
+    var min = Math.floor((secs - (hr * 3600)) / 60);
+    var sec = Math.floor(secs - (hr * 3600) - (min * 60));
+
+    if (min < 10) {
+        min = "0" + min;
+    }
+
+    if (sec < 10) {
+        sec = "0" + sec;
+    }
+
+    return {
+        hours: hr,
+        minutes: min,
+        seconds: sec
+    };
+}
 
 }
 

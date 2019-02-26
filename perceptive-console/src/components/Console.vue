@@ -47,7 +47,14 @@ import GraphContainer from "./GraphContainer";
 import OFAPI from "../services/OFAPI";
 import MSHelper from "../classes/MSHelper";
 import SPSAPI from "../services/SPSAPI";
-import SPSProxyHelper from "../classes/SPSProxyHelper.js";
+import TimelineRow from "../classes/TimelineRow";
+import EventTypes from "../classes/EventTypes";
+import WebSocket from 'ws';
+
+
+
+
+
 
 export default {
   name: "Console",
@@ -55,6 +62,14 @@ export default {
     VideoPlayer,
     ScoreDial,
     GraphContainer
+  },
+
+  created(){
+    this.getCurrentSessionId();
+  },
+
+  mounted(){
+    
   },
 
   data() {
@@ -65,24 +80,39 @@ export default {
       },
       ofStarted: false,
       stopButtonD: false,
-      eventProxy : new SPSProxyHelper(),
-      current_session : null
+      current_session: null,
+      current_timeline_row : new TimelineRow(),
+      timeline_report : [] //This will be an array of generated TimelineRow objects
     };
   },
+
+ 
 
   methods: {
     /* Check for running Open Face Routine, state stored globally */
     toggleOFRoutine() {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
+        
+        /* Multisense Routine */
         // msRoutine = window.setInterval(this.multisenseRoutine, 1000)
+        //MSHelper.startRecorder();
         MSHelper.enabled = true;
+        
+      
+
+        /* UI Changes */
         this.stopButtonD = true;
-        MSHelper.startRecorder();
-        this.getCurrentSessionId();
+       
       } else {
+
+        /* Multisense Routine */
         // clearInterval(msRoutine);
         MSHelper.enabled = false;
+
+  
+        
+        /* UI Changes */
         this.stopButtonD = false;
       }
     },
@@ -104,11 +134,37 @@ export default {
         });
     },
 
-    async getCurrentSessionId(){
-      let response = await SPSAPI.SPS.getRunningSessionID(); 
-      this.current_session = response.data;
+    async getCurrentSessionId() {
+      try {
+        let response = await SPSAPI.SPS.getSessionId();
+        this.current_session = response.data;
+      } catch (err) {
+        console.log(err);
+      }
     },
 
+    addEventToTimeline(event){
+      switch(event.eventType){
+        case EventTypes.STUDENT_ACTION:
+          
+          this.current_timeline_row.user_request = event.utterance;
+          this.current_timeline_row.user_request_assessment = event.assessableItemFullName;
+          break;
+
+        case EventTypes.UTTERANCE_SLIP:
+          this.current_timeline_row.patient_response = event.text;
+          break;
+
+        case EventTypes.CHECKLIST:
+          this.timeline_report.push(this.current_timeline_row);
+          this.current_timeline_row = new TimelineRow();
+          break;
+
+        default:
+          break;
+      }
+
+    }
   }
 };
 </script>

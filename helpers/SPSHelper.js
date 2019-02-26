@@ -1,19 +1,34 @@
 /* This is the Standard Patient API Helper class, that allows the 
 user to query for SessionID and subscribe to the queue of events for that session ID*/
 
-/* Attempting ZeroMQ */
-const zmq = require('zeromq');
-const axios = require('axios');
-
-
-/* ZMQ Initialization */
-var sock = zmq.socket('pub');
-sock.bindSync('tcp://127.0.0.1:4000');
-console.log("Started ZEROMQ Pubserver");
-
-
-
+const WebSocket = require('ws');
+const url = require('url');
 const SPSAPI_URL = 'http://dev1.scp.standardpatient.org/scpatient/api/interaction';
+
+
+var Queue = require("./Queue.js");
+var EventQueue = new Queue();
+
+
+const wss = new WebSocket.Server({port : 4040});
+
+wss.on('connection', (ws, req) => {
+    let token = url.parse(req.url, true).query.token;
+    ws.id = token;
+    console.log("Client Connected of type->", token);
+})
+
+
+const WSS = {
+    getPerceptiveClient : () => {
+        let client = [...wss.clients].find(client=>{
+            return client.id == 'perceptive';
+        })
+        return client;
+    }
+}
+
+
 
 const SPSAPI = {
     getRunningSessionId: async () => {
@@ -33,6 +48,12 @@ const SPSAPI = {
         } catch (err) {
             console.log(err);
         }
+    },
+
+    dequeueEvent : () => {
+        //zmq client to consume messages for client to access over rest
+        let event = EventQueue.dequeue();
+        return event;
     }
 }
 
@@ -42,6 +63,7 @@ class SPSHelper {
 
     constructor() {
         this.subscribers = new Object(); // A Key value paiting of String - Integer. <SessionID,EventID>
+       
     }
 
 
@@ -93,11 +115,27 @@ class SPSHelper {
     async poll(session_id, event_id) {
         try {
             let event_data = await SPSAPI.getRunningEvent(session_id, event_id);
-            this.flatten_sort(event_data);
-
+            if(event_data){
+                
+                /* Flatten and Sort the Array */
+                let sorted_event_array = this.flatten_sort(event_data);
+                console.log("Event Data Received @" + Date.now().toString());
+                this.pushEventArray(sorted_event_array);
+                
+                /* Get the WSS Perceptive Client and send messages to it */
+                let perceptive_client = WSS.getPerceptiveClient();
+                
+                sorted_event_array.forEach(event=>{
+                    perceptive_client.send(JSON.stringify(event));
+                });
+            }
         } catch (err) {
             console.log(err);
         }
+    }
+
+    poll_process(session_id, event_id){
+        setInterval(()=>{this.poll(session_id,event_id)}, 200);
     }
 
     /*Sorts events in response data by event_id, converting it into an array of events*/
@@ -114,15 +152,27 @@ class SPSHelper {
         }
 
         sorted_event_array.sort((a,b)=>{
-            return a.id < b.id
+            return a.id > b.id
         });
-
-        console.log(sorted_event_array);
+        
+        return sorted_event_array;
     }
 
     isSubscribed(session_id) {
         return this.subscribers[session_id] >= 0;
     }
+
+    pushEventArray(eventArray){
+        console.log("Pushing Event Array to AMQ");
+        eventArray.forEach(event=>{
+            EventQueue.enqueue(event);
+            console.log(event.id);
+        })
+    }
 }
 
-new SPSHelper().poll(17301, 0)
+
+module.exports = {
+    SPSAPI : SPSAPI,
+    SPSHelper : new SPSHelper()
+};

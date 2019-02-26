@@ -8,7 +8,7 @@ router.get('/', function(req, res, next){
         if(err) return next(err);
         res.json(configurations);
     });
-})
+});
 
 /* GET CONFIG BY ID */
 router.get('/:configuration_id', (req, res, next)=>{

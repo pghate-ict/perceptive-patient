@@ -19,6 +19,11 @@ const DBAPI = {
         getValues : (variable_id) => {
             return axios.get(DBAPI_URL + "/variables/" + variable_id + "/values/");
         }
+    },
+    _SPS_Session : {
+        getCurrentEventID : () => {
+            return axios.get();
+        }
     }
 }
 
