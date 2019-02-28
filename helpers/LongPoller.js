@@ -1,31 +1,38 @@
 const axios = require('axios');
 
-var LongPoller = {
-    
-    data : {
-        last_response : null,
-        request_uri : null,
-        poll_timeout : 30000,
-    },
-    
-    pollOnce = async () => {
-        if(!request_uri){
-            throwError("Request URI Empty, Please provide URI Endpoint!")
-            return;
+class LongPoller {
+    constructor(url, options){
+        //url for get request
+        this.url = url;
+        //options such as timeout and request retries
+        if(options){
+            this.timeout = options.timeout;
+            this.retries = options.retries;
         }
-        
-        try {
-            const response = axios.get(request_uri);
-            console.log(response);
-        } catch (error) {
-            console.log(error);
-        }
-    },
 
-    throwError = (err) => {
-        console.log("ERROR FROM LONGPOLLER ->", err);
+        console.log("LONGPOLLER -> Created new Longpoller!");
+    }
+
+    pollOnce(){
+        console.log("LONGPOLLER : Requesting.. ");
+        return axios.get(this.url);
+    }
+
+    async poll(){
+
+        let response = await this.pollOnce();
+        if(response.data.spsStreamEvents == ''){
+            console.log("LONGPOLLER : No data found, trying again...");
+        } else {
+            console.log("LONGPOLLER : Data Found!");
+        }
+
+        this.poll();
+    }
+
+    throwError(){
+        console.log("ERROR FROM LONG POLLER->", errMsg);
     }
 }
 
 module.exports = LongPoller;
-

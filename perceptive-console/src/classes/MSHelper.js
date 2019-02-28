@@ -64,7 +64,7 @@ class MSHelper {
 
   takePicture() {
     let ctx = this.canvas.getContext('2d');
-    ctx.drawImage(this.video, 0, 0, this.video.width, this.video.height);
+    ctx.drawImage(this.video, 0, 0, /*this.video.width*/ 800, /*this.video.height*/ 600);
     let url = this.canvas.toDataURL('image/jpeg', 1);
     let base64 = this.trimUrlMetaData(url);
     return base64;
