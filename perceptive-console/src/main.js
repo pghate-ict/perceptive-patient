@@ -10,11 +10,6 @@ import {store} from './store/store';
 import VueGoogleCharts from 'vue-google-charts';
 import WebRTC from 'vue-webrtc';
 
-const WS = new WebSocket('ws://localhost:4040?token=perceptive');
-
-WS.onmessage = (event) => {
-  console.log(event);
-}
 
 
 Vue.config.productionTip = false;

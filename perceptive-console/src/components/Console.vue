@@ -49,12 +49,6 @@ import MSHelper from "../classes/MSHelper";
 import SPSAPI from "../services/SPSAPI";
 import TimelineRow from "../classes/TimelineRow";
 import EventTypes from "../classes/EventTypes";
-import WebSocket from 'ws';
-
-
-
-
-
 
 export default {
   name: "Console",
@@ -64,12 +58,9 @@ export default {
     GraphContainer
   },
 
-  created(){
+  created() {
     this.getCurrentSessionId();
-  },
-
-  mounted(){
-    
+    this.connectSocket();
   },
 
   data() {
@@ -81,37 +72,29 @@ export default {
       ofStarted: false,
       stopButtonD: false,
       current_session: null,
-      current_timeline_row : new TimelineRow(),
-      timeline_report : [] //This will be an array of generated TimelineRow objects
+      current_timeline_row: new TimelineRow(),
+      current_session_video_url: null,
+      timeline_report: [] //This will be an array of generated TimelineRow objects
     };
   },
-
- 
 
   methods: {
     /* Check for running Open Face Routine, state stored globally */
     toggleOFRoutine() {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
-        
         /* Multisense Routine */
         // msRoutine = window.setInterval(this.multisenseRoutine, 1000)
         //MSHelper.startRecorder();
         MSHelper.enabled = true;
-        
-      
 
         /* UI Changes */
         this.stopButtonD = true;
-       
       } else {
-
         /* Multisense Routine */
         // clearInterval(msRoutine);
         MSHelper.enabled = false;
 
-  
-        
         /* UI Changes */
         this.stopButtonD = false;
       }
@@ -143,16 +126,18 @@ export default {
       }
     },
 
-    addEventToTimeline(event){
-      switch(event.eventType){
+    addEventToTimeline(event) {
+      event = JSON.parse(event);
+      switch (event.eventType) {
         case EventTypes.STUDENT_ACTION:
-          
           this.current_timeline_row.user_request = event.utterance;
-          this.current_timeline_row.user_request_assessment = event.assessableItemFullName;
+          this.current_timeline_row.user_request_assessment =
+            event.assessableItemFullName;
           break;
 
         case EventTypes.UTTERANCE_SLIP:
           this.current_timeline_row.patient_response = event.text;
+          this.current_timeline_row.turn[1] = this.current_session_video_url + `${event.name}.${event.format}`;
           break;
 
         case EventTypes.CHECKLIST:
@@ -160,10 +145,30 @@ export default {
           this.current_timeline_row = new TimelineRow();
           break;
 
+        case EventTypes.MESSAGING_SLIP:
+          this.current_session_video_url = `${event.protocol}://${event.domain}/${event.path}/`;
+          break;
+
         default:
           break;
       }
+    },
 
+    connectSocket() {
+      this.socket = new WebSocket("ws://localhost:4040/?token=perceptive");
+      this.socket.onopen = () => {
+        console.log("Socket Opened on Perceptive Side!");
+      };
+      this.socket.onmessage = event => {
+        console.log("Event Added!");
+        this.addEventToTimeline(event.data);
+        //this.test();
+      };
+    },
+
+    disconnectSocket() {
+      this.socket.close();
+      console.log("Socket Closed on Perceptive Side!");
     }
   }
 };

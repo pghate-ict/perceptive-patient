@@ -49,7 +49,7 @@ var server = http.Server(app);
 SPSHelper.SPSAPI.getRunningSessionId().then(data => {
       console.log("Found a Running Session!");
       console.log("Started SPS Event Polling for Session ID:", data);
-      SPSHelper.SPSHelper.poll_process(data, 99999);
+      SPSHelper.SPSHelper.poll(data, 0);
 }).catch(err => {
       console.log("Could not find Running Session, go to http://dev.standardpatient.org" + err);
 });

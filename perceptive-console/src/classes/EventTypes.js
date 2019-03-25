@@ -7,7 +7,8 @@ var EventTypes = {
     VARIABLE_UPDATE : "variableUpdateEvent",
     PATIENT_ACTION : "patientActionEvent",
     USER_PROGRESS : "userProgressStatusEvent",
-    CHECKLIST : "ChecklistEvent"
+    CHECKLIST : "ChecklistEvent",
+    MESSAGING_SLIP : "messagingSlipEvent"
 }
 
 export default EventTypes;

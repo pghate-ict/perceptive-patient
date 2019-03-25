@@ -4,14 +4,24 @@ user to query for SessionID and subscribe to the queue of events for that sessio
 const WebSocket = require('ws');
 const url = require('url');
 const axios = require('axios');
-
 const SPSAPI_URL = 'http://dev1.scp.standardpatient.org/scpatient/api/interaction';
-
+const Queue = require('./Queue');
 
 // var LongPoller = require("../helpers/LongPoller");
 // var spsEventPoller = new LongPoller();
 
+/* Variable to keep track of number of requests to SPS so far */
+var n = 0;
 
+/* Tracking different types of client */
+var wsClientMap = {
+    perceptive : null
+};
+
+/* This queue keeps track of events found by proxy but cannot send to perceptive client yet */
+const EventBuffer = new Queue();
+
+/* Starting web socket server as a proxy to send events to Perceptive Client etc */
 const wss = new WebSocket.Server({
     port: 4040
 });
@@ -19,6 +29,17 @@ const wss = new WebSocket.Server({
 wss.on('connection', (ws, req) => {
     let token = url.parse(req.url, true).query.token;
     ws.id = token;
+    if(token == 'perceptive'){
+        wsClientMap.perceptive = ws;
+        //Check for any events in the EventBuffer first
+        if(!EventBuffer.isEmpty()){
+            console.log("Dumping Event Buffer!");
+            while(!EventBuffer.isEmpty()){
+                wsClientMap.perceptive.send(JSON.stringify(EventBuffer.dequeue()));
+            }
+            
+        }
+    }
     console.log("Client Connected of type->", token);
 })
 
@@ -31,6 +52,8 @@ const WSS = {
         return client;
     }
 }
+
+/* END WEB SOCKET STUFF */
 
 
 
@@ -115,25 +138,33 @@ class SPSHelper {
 
 
     async poll(session_id, event_id) {
-        try{
+        try {
+
+            console.log(`Listening to Events! (${n++})`);
             let response = await SPSAPI.getRunningEvent(session_id, event_id);
-        
+
             if (response.data.spsStreamEvents !== '') {
                 let sorted_event_array = this.flatten_sort(response.data.spsStreamEvents);
                 console.log("Event Data Received");
-                let perceptive_client = WSS.getPerceptiveClient();
-                console.log(perceptive_client);
-                if(perceptive_client){
+                if(wsClientMap.perceptive != null){
                     sorted_event_array.forEach(event => {
-                        perceptive_client.send(JSON.stringify(event));
+                       wsClientMap.perceptive.send(JSON.stringify(event));
                     });
+                } else {
+                    console.log("Event Data in Buffer, waiting for Perceptive Client to connect!");
+                    sorted_event_array.forEach(event=>{
+                        EventBuffer.enqueue(event);
+                    })
                 }
-                this.poll(session_id, event_id);
+            } else {
+                console.log("Event Data not found, trying again!");
             }
-        } catch(error){
+
+            this.poll(session_id, event_id);
+        } catch (error) {
             console.log("ERROR->", error);
         }
-        
+
     }
 
     /*Sorts events in response data by event_id, converting it into an array of events*/
@@ -173,8 +204,6 @@ class SPSHelper {
     }
 }
 
-
-new SPSHelper().poll(17381, 0).catch(err => console.log(err));
 
 module.exports = {
     SPSAPI: SPSAPI,

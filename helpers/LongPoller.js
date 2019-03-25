@@ -27,7 +27,7 @@ class LongPoller {
             console.log("LONGPOLLER : Data Found!");
         }
 
-        this.poll();
+        return response.data;
     }
 
     throwError(){
