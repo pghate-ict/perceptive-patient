@@ -6,8 +6,8 @@ let instance = null;
 class MSHelper {
   constructor () {
     if (!instance) {
-      
-    
+
+
       this.trimUrlMetaData = this.trimUrlMetaData.bind(this);
       this.getFrameData = this.getFrameData.bind(this);
       this.takePicture = this.takePicture.bind(this);
@@ -28,7 +28,7 @@ class MSHelper {
 
       this.dateStarted = null;
 
-      
+
 
       this.stream = null;
 
@@ -64,9 +64,10 @@ class MSHelper {
 
   takePicture() {
     let ctx = this.canvas.getContext('2d');
-    ctx.drawImage(this.video, 0, 0, /*this.video.width*/ 800, /*this.video.height*/ 600);
+    ctx.drawImage(this.video, 0, 0, /*this.video.width*/ 400, /*this.video.height*/ 300);
     let url = this.canvas.toDataURL('image/jpeg', 1);
     let base64 = this.trimUrlMetaData(url);
+    console.log(base64);
     return base64;
   }
 
@@ -81,6 +82,7 @@ class MSHelper {
   /*Calling the Openface API*/
   async getFrameData(base64_string) {
     let res = await OFAPI.OpenFace.getFrameData(base64_string);
+    console.log(res);
     return res;
   }
 

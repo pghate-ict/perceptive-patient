@@ -53,7 +53,7 @@ import WebSocket from 'ws';
 
 
 
-
+var msRoutine = null;
 
 
 export default {
@@ -65,11 +65,11 @@ export default {
   },
 
   created(){
-    this.getCurrentSessionId();
+    //this.getCurrentSessionId();
   },
 
   mounted(){
-    
+
   },
 
   data() {
@@ -81,37 +81,33 @@ export default {
       ofStarted: false,
       stopButtonD: false,
       current_session: null,
+      msRoutine : null,
       current_timeline_row : new TimelineRow(),
       timeline_report : [] //This will be an array of generated TimelineRow objects
     };
   },
 
- 
+
 
   methods: {
     /* Check for running Open Face Routine, state stored globally */
     toggleOFRoutine() {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
-        
+
         /* Multisense Routine */
-        // msRoutine = window.setInterval(this.multisenseRoutine, 1000)
+        msRoutine = window.setInterval(this.multisenseRoutine, 1000)
         //MSHelper.startRecorder();
         MSHelper.enabled = true;
-        
-      
-
         /* UI Changes */
         this.stopButtonD = true;
-       
+
       } else {
 
         /* Multisense Routine */
-        // clearInterval(msRoutine);
+        clearInterval(msRoutine);
         MSHelper.enabled = false;
 
-  
-        
         /* UI Changes */
         this.stopButtonD = false;
       }
@@ -127,6 +123,7 @@ export default {
     multisenseRoutine() {
       MSHelper.getFrameData(MSHelper.takePicture())
         .then(response => {
+
           this.$store.commit("ADD_FRAME", response.data);
         })
         .catch(error => {
@@ -143,10 +140,11 @@ export default {
       }
     },
 
+
     addEventToTimeline(event){
       switch(event.eventType){
         case EventTypes.STUDENT_ACTION:
-          
+
           this.current_timeline_row.user_request = event.utterance;
           this.current_timeline_row.user_request_assessment = event.assessableItemFullName;
           break;
