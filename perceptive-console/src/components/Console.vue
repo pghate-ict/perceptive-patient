@@ -74,6 +74,7 @@ export default {
       current_session: null,
       current_timeline_row: new TimelineRow(),
       current_session_video_url: null,
+      ms_routine : null,
       timeline_report: [] //This will be an array of generated TimelineRow objects
     };
   },
@@ -84,17 +85,22 @@ export default {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
         /* Multisense Routine */
-        // msRoutine = window.setInterval(this.multisenseRoutine, 1000)
-        //MSHelper.startRecorder();
+        //this.ms_routine = window.setInterval(this.multisenseRoutine, 1000)
+        MSHelper.startRecorder();
         MSHelper.enabled = true;
 
         /* UI Changes */
         this.stopButtonD = true;
       } else {
         /* Multisense Routine */
-        // clearInterval(msRoutine);
+        //clearInterval(ms_routine);
         MSHelper.enabled = false;
-
+        MSHelper.stopRecorder().then(()=>{
+          console.log("Video Recorded");
+        })
+        .catch(error=>{
+          console.log(error)
+        });
         /* UI Changes */
         this.stopButtonD = false;
       }
@@ -128,21 +134,32 @@ export default {
 
     addEventToTimeline(event) {
       event = JSON.parse(event);
+      
       switch (event.eventType) {
         case EventTypes.STUDENT_ACTION:
           this.current_timeline_row.user_request = event.utterance;
-          this.current_timeline_row.user_request_assessment =
-            event.assessableItemFullName;
+          break;
+
+        case EventTypes.USER_PROGRESS:
+          this.current_timeline_row.user_request_assessment = event.progress.itemsUncoveredInThisTurn;
           break;
 
         case EventTypes.UTTERANCE_SLIP:
+       
           this.current_timeline_row.patient_response = event.text;
           this.current_timeline_row.turn[1] = this.current_session_video_url + `${event.name}.${event.format}`;
           break;
 
         case EventTypes.CHECKLIST:
+
+          let start = MSHelper.getCurrentRecorderTimestamp();
+
+          //This is the timestamp from which 5 seconds from then, would be the reaction
+          //of the user towards his patient
+          this.current_timeline_row.turn[2] = start;
           this.timeline_report.push(this.current_timeline_row);
           this.current_timeline_row = new TimelineRow();
+
           break;
 
         case EventTypes.MESSAGING_SLIP:
@@ -162,7 +179,6 @@ export default {
       this.socket.onmessage = event => {
         console.log("Event Added!");
         this.addEventToTimeline(event.data);
-        //this.test();
       };
     },
 

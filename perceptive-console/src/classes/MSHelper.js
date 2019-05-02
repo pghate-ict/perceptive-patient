@@ -103,11 +103,11 @@ class MSHelper {
   //Functions to start and stop recording to capture mp4 and store video file in database eventually.
   startRecorder(){
     this.recorder.startRecording();
-    this.dateStarted = new Date().getTime();
+    this.dateStarted = new Date();
   }
 
   getCurrentRecorderTimestamp(){
-    var info = getInfo((new Date().getTime() - dateStarted)/1000);
+    var info = (new Date().getTime() - this.dateStarted.getTime())/1000;
     return info;
   }
 

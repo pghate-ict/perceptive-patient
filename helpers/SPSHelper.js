@@ -6,6 +6,7 @@ const url = require('url');
 const axios = require('axios');
 const SPSAPI_URL = 'http://dev1.scp.standardpatient.org/scpatient/api/interaction';
 const Queue = require('./Queue');
+const EventLogger = require('./EventLogger');
 
 // var LongPoller = require("../helpers/LongPoller");
 // var spsEventPoller = new LongPoller();
@@ -20,6 +21,9 @@ var wsClientMap = {
 
 /* This queue keeps track of events found by proxy but cannot send to perceptive client yet */
 const EventBuffer = new Queue();
+const Logger = new EventLogger();
+/* Keep track of all events for loggin */
+var sorted_event_array_complete = [];
 
 /* Starting web socket server as a proxy to send events to Perceptive Client etc */
 const wss = new WebSocket.Server({
@@ -187,7 +191,7 @@ class SPSHelper {
         sorted_event_array.sort((a, b) => {
             return a.id > b.id
         });
-
+        sorted_event_array_complete.push(...sorted_event_array);
         return sorted_event_array;
     }
 
@@ -203,6 +207,12 @@ class SPSHelper {
         })
     }
 }
+
+process.on('SIGINT', () => {
+    Logger.dump_all(sorted_event_array_complete);
+    console.log("Event Data Logged!");
+    process.exit();
+})
 
 
 module.exports = {
