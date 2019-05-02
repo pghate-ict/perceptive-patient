@@ -21,6 +21,9 @@ class TimelineRow {
     this.user_request_assessment = null;
     this.patient_response_assessment = null;
 
+    /* Unlocked Tokens */
+    this.user_unlocked_tokens = null;
+
     /* User Perception */
     this.user_perception = null;
   }

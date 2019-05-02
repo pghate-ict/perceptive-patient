@@ -118,7 +118,7 @@ class MSHelper {
   }  
 }
 
-}
+
 
 instance = new MSHelper();
 export default instance;

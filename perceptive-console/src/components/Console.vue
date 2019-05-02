@@ -138,10 +138,11 @@ export default {
       switch (event.eventType) {
         case EventTypes.STUDENT_ACTION:
           this.current_timeline_row.user_request = event.utterance;
+          this.current_timeline_row.user_request_assessment = event.assessableItemFullName;
           break;
 
         case EventTypes.USER_PROGRESS:
-          this.current_timeline_row.user_request_assessment = event.progress.itemsUncoveredInThisTurn;
+          this.current_timeline_row.user_unlocked_tokens = event.progress.itemsUncoveredInThisTurn;
           break;
 
         case EventTypes.UTTERANCE_SLIP:
