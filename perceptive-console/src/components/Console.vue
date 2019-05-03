@@ -155,7 +155,7 @@ export default {
 
           let start = MSHelper.getCurrentRecorderTimestamp();
 
-          //This is the timestamp from which 5 seconds from then, would be the reaction
+          //This is the timestamp from which 8 seconds from then, would be the reaction
           //of the user towards his patient
           this.current_timeline_row.turn[2] = start;
           this.timeline_report.push(this.current_timeline_row);

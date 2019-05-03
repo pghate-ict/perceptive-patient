@@ -15,7 +15,6 @@ class TimelineRow {
     */
     this.user_request = null;
     this.patient_response = null;
-    this.user_response = null;
 
     /* Assessments */
     this.user_request_assessment = null;
