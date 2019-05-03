@@ -22,7 +22,15 @@
 
 <script>
 export default {
-    
+    props : ['data'],
+
+    methods : {
+        processProps(){
+            if(this.props.data){
+                //Process the data here in right visual format
+            }
+        }
+    }
 }
 </script>
 
