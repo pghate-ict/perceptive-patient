@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-container grid-list-md>
-      
+      <TimelineRow v-for="timelineObject in timeline" :timeline="timelineObject"/>
     </v-container>
   </div>
 </template>
