@@ -85,7 +85,7 @@ export default {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
         /* Multisense Routine */
-        //this.ms_routine = window.setInterval(this.multisenseRoutine, 1000)
+        this.ms_routine = window.setInterval(this.multisenseRoutine, 1000)
         MSHelper.startRecorder();
         MSHelper.enabled = true;
 
@@ -93,7 +93,7 @@ export default {
         this.stopButtonD = true;
       } else {
         /* Multisense Routine */
-        //clearInterval(ms_routine);
+        clearInterval(this.ms_routine);
         MSHelper.enabled = false;
         MSHelper.stopRecorder().then(()=>{
           console.log("Video Recorded");
