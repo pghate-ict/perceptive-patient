@@ -21,6 +21,8 @@
               ref="stopButton"
               large
               :disabled="!stopButtonD"
+              to="/Timeline"
+              target="_blank"
             >
               <v-icon dark>stop</v-icon>Stop Session
             </v-btn>
@@ -44,18 +46,21 @@
 import VideoPlayer from "./VideoPlayer";
 import ScoreDial from "./ScoreDial";
 import GraphContainer from "./GraphContainer";
+import Timeline from "./Timeline";
 import OFAPI from "../services/OFAPI";
 import MSHelper from "../classes/MSHelper";
 import SPSAPI from "../services/SPSAPI";
 import TimelineRow from "../classes/TimelineRow";
 import EventTypes from "../classes/EventTypes";
 
+
 export default {
   name: "Console",
   components: {
     VideoPlayer,
     ScoreDial,
-    GraphContainer
+    GraphContainer,
+    Timeline
   },
 
   created() {
@@ -71,10 +76,11 @@ export default {
       },
       ofStarted: false,
       stopButtonD: false,
+      timeline_dialog: false,
       current_session: null,
       current_timeline_row: new TimelineRow(),
       current_session_video_url: null,
-      ms_routine : null,
+      ms_routine: null,
       timeline_report: [] //This will be an array of generated TimelineRow objects
     };
   },
@@ -85,7 +91,7 @@ export default {
       this.ofStarted = !this.ofStarted;
       if (!MSHelper.enabled) {
         /* Multisense Routine */
-        this.ms_routine = window.setInterval(this.multisenseRoutine, 1000)
+        this.ms_routine = window.setInterval(this.multisenseRoutine, 1000);
         MSHelper.startRecorder();
         MSHelper.enabled = true;
 
@@ -95,12 +101,13 @@ export default {
         /* Multisense Routine */
         clearInterval(this.ms_routine);
         MSHelper.enabled = false;
-        MSHelper.stopRecorder().then(()=>{
-          console.log("Video Recorded");
-        })
-        .catch(error=>{
-          console.log(error)
-        });
+        MSHelper.stopRecorder()
+          .then(() => {
+            console.log("Video Recorded");
+          })
+          .catch(error => {
+            console.log(error);
+          });
         /* UI Changes */
         this.stopButtonD = false;
       }
@@ -108,9 +115,10 @@ export default {
 
     stopSession() {
       let k = MSHelper.stopRecorder();
-      console.log(k);
       MSHelper.enabled = false;
       this.stopButtonD = true;
+      /*Show timeline report*/
+      this.timeline_dialog = true;
     },
 
     multisenseRoutine() {
@@ -134,25 +142,26 @@ export default {
 
     addEventToTimeline(event) {
       event = JSON.parse(event);
-      
+
       switch (event.eventType) {
         case EventTypes.STUDENT_ACTION:
           this.current_timeline_row.user_request = event.utterance;
-          this.current_timeline_row.user_request_assessment = event.assessableItemFullName;
+          this.current_timeline_row.user_request_assessment =
+            event.assessableItemFullName;
           break;
 
         case EventTypes.USER_PROGRESS:
-          this.current_timeline_row.user_unlocked_tokens = event.progress.itemsUncoveredInThisTurn;
+          this.current_timeline_row.user_unlocked_tokens =
+            event.progress.itemsUncoveredInThisTurn;
           break;
 
         case EventTypes.UTTERANCE_SLIP:
-       
           this.current_timeline_row.patient_response = event.text;
-          this.current_timeline_row.turn[1] = this.current_session_video_url + `${event.name}.${event.format}`;
+          this.current_timeline_row.turn[1] =
+            this.current_session_video_url + `${event.name}.${event.format}`;
           break;
 
         case EventTypes.CHECKLIST:
-
           let start = MSHelper.getCurrentRecorderTimestamp();
 
           //This is the timestamp from which 8 seconds from then, would be the reaction
@@ -164,7 +173,9 @@ export default {
           break;
 
         case EventTypes.MESSAGING_SLIP:
-          this.current_session_video_url = `${event.protocol}://${event.domain}/${event.path}/`;
+          this.current_session_video_url = `${event.protocol}://${
+            event.domain
+          }/${event.path}/`;
           break;
 
         default:

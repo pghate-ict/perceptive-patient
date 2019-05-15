@@ -1,7 +1,16 @@
 <template>
   <div>
-    <v-container grid-list-md>
-      <TimelineRow v-for="timelineObject in timeline" :timeline="timelineObject"/>
+    <v-container>
+      <v-layout row>
+        <v-flex md12>
+          <div class="display-1">After-Action Timeline</div>
+        </v-flex>
+      </v-layout>
+      <v-layout row>
+        <v-flex md12>
+          <!-- <TimelineRow :v-for="timeline_row in timeline" key="timeline_row.id"/> -->
+        </v-flex>
+      </v-layout>
     </v-container>
   </div>
 </template>
