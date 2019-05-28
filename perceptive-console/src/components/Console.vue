@@ -65,7 +65,7 @@ export default {
 
   created() {
     this.getCurrentSessionId();
-    this.connectSocket();
+    console.log(SPSAPI.SPS.getSessionIdRaw());
   },
 
   data() {
@@ -94,7 +94,7 @@ export default {
         this.ms_routine = window.setInterval(this.multisenseRoutine, 1000);
         MSHelper.startRecorder();
         MSHelper.enabled = true;
-
+        this.connectSocket();
         /* UI Changes */
         this.stopButtonD = true;
       } else {
