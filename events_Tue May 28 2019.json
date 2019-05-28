@@ -1,1 +1,423 @@
-[{"id":1036791,"sessionId":18337,"speaker":"C3PO-Generator","target":"simcoach","timestamp":"2019-05-28T18:57:05.704Z","encounterId":1661821416,"eventType":"scoreRequestEvent"},{"id":1036792,"sessionId":18337,"speaker":"C3PO-Generator","target":"simcoach","timestamp":"2019-05-28T18:57:05.719Z","utterance":"Hello","eventType":"textUtteranceEvent"},{"id":1036794,"sessionId":18337,"speaker":"C3PO-Generator","target":"simcoach","timestamp":"2019-05-28T18:57:05.737Z","encounterId":1661821416,"assessableItemFullName":"HPI.Social.Hello","utterance":"Hello","eventType":"studentActionEvent"},{"id":1036795,"sessionId":18337,"speaker":"coach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:05.762Z","encounterId":1661821416,"expertScore":[0,0,3,3,3,6,7,8,11,14,17,18,19,20],"userScore":[0,3],"eventType":"scoreDataEvent"},{"id":1036796,"sessionId":18337,"speaker":"dialogManager","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:05.869Z","speechActText":"answer.hpi.social.hello","utteranceNew":false,"utteranceText":"Hi there.","eventType":"speechActEvent"},{"id":1036797,"sessionId":18337,"speaker":"simcoach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:05.892Z","utterance":"Hi there.","eventType":"textUtteranceEvent"},{"id":1036798,"sessionId":18337,"speaker":"simcoach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:05.897Z","format":"mp4","name":"ChrSteveLtePrefab-ExamRoom01/3/ChrSteveLtePrefab-ExamRoom01_U11","namespace":"","duration":-1,"text":"Hi there.","vcaId":14,"vcaType":"UTTERANCE","eventType":"utteranceSlipEvent"},{"id":1036799,"sessionId":18337,"speaker":"dialogManager","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:05.935Z","encounterId":1661821416,"assessableItemFullName":"HPI.Social.Hello","utterance":"Hi there.","eventType":"patientActionEvent"},{"id":1036800,"sessionId":18337,"speaker":"coach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:06.017Z","encounterId":1661821416,"variableName":"PROGRESS","variableValue":3,"eventType":"variableUpdateEvent"},{"id":1036801,"sessionId":18337,"speaker":"coach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:06.073Z","encounterId":1661821416,"progress":{"totalMustAskCount":5,"totalNiceToAskCount":5,"uncoveredMustAskCount":1,"uncoveredNiceToAskCount":0,"scoreInThisTurn":0,"itemsUncoveredInThisTurn":"HPI.Social.Hello","userProgressGraph":[0,0,0,0,0,0,3,3]},"eventType":"userProgressStatusEvent"},{"id":1036802,"sessionId":18337,"speaker":"coach","target":"C3PO-Generator","timestamp":"2019-05-28T18:57:06.080Z","encounterId":1661821416,"SocialChecklistItem":{"id":136099,"name":"Social","isSatisfied":true,"triggeredCount":2},"ReasonForVisitChecklistItem":{"id":136100,"name":"Reason For Visit","isSatisfied":true},"NarrativeChecklistItem":{"id":136101,"name":"Narrative","isSatisfied":true,"triggeredCount":1,"totalCrossRefItemsCount":0,"totalCount":3},"HPIChecklistItem":{"id":136102,"name":"HPI","isSatisfied":false,"triggeredCount":0,"totalCount":3},"MHChecklistItem":{"id":136103,"name":"MH","isSatisfied":false,"triggeredCount":0,"totalCount":0},"ROSChecklistItem":{"id":136104,"name":"ROS","isSatisfied":false,"triggeredCount":0,"totalCount":6},"eventType":"ChecklistEvent"}]
+[{
+    "id": 1036754,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:49:33.873Z",
+    "encounterId": 1661821416,
+    "testInteraction": true,
+    "eventType": "executionStartEvent"
+}, {
+    "id": 1036755,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:49:33.875Z",
+    "testInteraction": true,
+    "userId": "C3PO-Generator",
+    "eventType": "loginEvent"
+}, {
+    "id": 1036756,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:49:33.930Z",
+    "domain": "d31rc8r6l0l9ru.cloudfront.net",
+    "path": "dev1.may18",
+    "protocol": "http",
+    "eventType": "messagingSlipEvent"
+}, {
+    "id": 1036757,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:49:33.985Z",
+    "format": "mp4",
+    "name": "behaviors.may21/ChrSteveLtePrefab.ExamRoom01.NeutralLoop01",
+    "namespace": "",
+    "duration": 10,
+    "eventType": "idleSlipEvent"
+}, {
+    "id": 1036759,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:41.515Z",
+    "encounterId": 1661821416,
+    "eventType": "scoreRequestEvent"
+}, {
+    "id": 1036760,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:41.537Z",
+    "encounterId": 1661821416,
+    "expertScore": [0, 0, 3, 3, 3, 6, 7, 8, 11, 14, 17, 18, 19, 20],
+    "eventType": "scoreDataEvent"
+}, {
+    "id": 1036761,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:41.720Z",
+    "utterance": "Hello",
+    "eventType": "textUtteranceEvent"
+}, {
+    "id": 1036763,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:41.774Z",
+    "encounterId": 1661821416,
+    "assessableItemFullName": "HPI.Social.Hello",
+    "utterance": "Hello",
+    "eventType": "studentActionEvent"
+}, {
+    "id": 1036764,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:41.939Z",
+    "speechActText": "answer.hpi.social.hello",
+    "utteranceNew": false,
+    "utteranceText": "Hi there.",
+    "eventType": "speechActEvent"
+}, {
+    "id": 1036765,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:41.959Z",
+    "utterance": "Hi there.",
+    "eventType": "textUtteranceEvent"
+}, {
+    "id": 1036766,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:41.964Z",
+    "format": "mp4",
+    "name": "ChrSteveLtePrefab-ExamRoom01/3/ChrSteveLtePrefab-ExamRoom01_U11",
+    "namespace": "",
+    "duration": -1,
+    "text": "Hi there.",
+    "vcaId": 14,
+    "vcaType": "UTTERANCE",
+    "eventType": "utteranceSlipEvent"
+}, {
+    "id": 1036767,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:41.991Z",
+    "encounterId": 1661821416,
+    "variableName": "PROGRESS",
+    "variableValue": 0,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036768,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:42.052Z",
+    "encounterId": 1661821416,
+    "assessableItemFullName": "HPI.Social.Hello",
+    "utterance": "Hi there.",
+    "eventType": "patientActionEvent"
+}, {
+    "id": 1036769,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:42.067Z",
+    "encounterId": 1661821416,
+    "progress": {
+        "totalMustAskCount": 5,
+        "totalNiceToAskCount": 5,
+        "uncoveredMustAskCount": 0,
+        "uncoveredNiceToAskCount": 0,
+        "scoreInThisTurn": 0,
+        "itemsUncoveredInThisTurn": "HPI.Social.Hello",
+        "userProgressGraph": [0, 0, 0, 0, 0, 0, 0, 0]
+    },
+    "eventType": "userProgressStatusEvent"
+}, {
+    "id": 1036770,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "",
+    "timestamp": "2019-05-28T18:50:42.119Z",
+    "encounterId": 1661821416,
+    "variableName": "LIKABILITY",
+    "variableValue": 1,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036771,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "",
+    "timestamp": "2019-05-28T18:50:42.173Z",
+    "encounterId": 1661821416,
+    "variableName": "TRUST",
+    "variableValue": 1,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036772,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:42.179Z",
+    "encounterId": 1661821416,
+    "SocialChecklistItem": {
+        "id": 136087,
+        "name": "Social",
+        "isSatisfied": true,
+        "triggeredCount": 1
+    },
+    "ReasonForVisitChecklistItem": {
+        "id": 136088,
+        "name": "Reason For Visit",
+        "isSatisfied": false
+    },
+    "NarrativeChecklistItem": {
+        "id": 136089,
+        "name": "Narrative",
+        "isSatisfied": true,
+        "triggeredCount": 0,
+        "totalCrossRefItemsCount": 0,
+        "totalCount": 3
+    },
+    "HPIChecklistItem": {
+        "id": 136090,
+        "name": "HPI",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 3
+    },
+    "MHChecklistItem": {
+        "id": 136091,
+        "name": "MH",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 0
+    },
+    "ROSChecklistItem": {
+        "id": 136092,
+        "name": "ROS",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 6
+    },
+    "eventType": "ChecklistEvent"
+}, {
+    "id": 1036773,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:50.537Z",
+    "encounterId": 1661821416,
+    "eventType": "scoreRequestEvent"
+}, {
+    "id": 1036774,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.549Z",
+    "encounterId": 1661821416,
+    "expertScore": [0, 0, 3, 3, 3, 6, 7, 8, 11, 14, 17, 18, 19, 20],
+    "userScore": 0,
+    "eventType": "scoreDataEvent"
+}, {
+    "id": 1036775,
+    "sessionId": 18337,
+    "speaker": "C3PO-Generator",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:50.807Z",
+    "utterance": "Whats up?",
+    "eventType": "textUtteranceEvent"
+}, {
+    "id": 1036777,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.913Z",
+    "speechActText": "answer.hpi.narrative.open-narrative.1",
+    "utteranceNew": false,
+    "utteranceText": "I'm fine except my knee.  I can't do anything with this knee.",
+    "eventType": "speechActEvent"
+}, {
+    "id": 1036778,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.927Z",
+    "utterance": "I'm fine except my knee.  I can't do anything with this knee.",
+    "eventType": "textUtteranceEvent"
+}, {
+    "id": 1036779,
+    "sessionId": 18337,
+    "speaker": "simcoach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.948Z",
+    "format": "mp4",
+    "name": "Jumpers Knee.1661821416/1/Jumpers Knee.1661821416_U1518",
+    "namespace": "",
+    "duration": -1,
+    "text": "I'm fine except my knee.  I can't do anything with this knee.",
+    "vcaId": 1518,
+    "vcaType": "UTTERANCE",
+    "eventType": "utteranceSlipEvent"
+}, {
+    "id": 1036780,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.957Z",
+    "encounterId": 1661821416,
+    "assessableItemFullName": "HPI.Narrative.Open Narrative.1",
+    "utterance": "Whats up",
+    "eventType": "studentActionEvent"
+}, {
+    "id": 1036781,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:50.967Z",
+    "property": "counterOpenNarrative",
+    "value": 1,
+    "eventType": "informationStateUpdateEvent"
+}, {
+    "id": 1036783,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "simcoach",
+    "timestamp": "2019-05-28T18:50:50.986Z",
+    "property": "hasAskedReasonForVisit",
+    "value": true,
+    "eventType": "informationStateUpdateEvent"
+}, {
+    "id": 1036782,
+    "sessionId": 18337,
+    "speaker": "dialogManager",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:50.974Z",
+    "encounterId": 1661821416,
+    "assessableItemFullName": "HPI.Narrative.Open Narrative.1",
+    "utterance": "I'm fine except my knee.  I can't do anything with this knee.",
+    "eventType": "patientActionEvent"
+}, {
+    "id": 1036784,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "dialogManager",
+    "timestamp": "2019-05-28T18:50:51.069Z",
+    "encounterId": 1661821416,
+    "variableName": "NUMBER_OF_MUST_ASK_ITEMS_TRIGGERED",
+    "variableValue": 1,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036785,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "dialogManager",
+    "timestamp": "2019-05-28T18:50:51.210Z",
+    "encounterId": 1661821416,
+    "variableName": "PROGRESS",
+    "variableValue": 3,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036786,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "dialogManager",
+    "timestamp": "2019-05-28T18:50:51.260Z",
+    "encounterId": 1661821416,
+    "progress": {
+        "totalMustAskCount": 5,
+        "totalNiceToAskCount": 5,
+        "uncoveredMustAskCount": 1,
+        "uncoveredNiceToAskCount": 0,
+        "scoreInThisTurn": 3,
+        "itemsUncoveredInThisTurn": "HPI.Narrative.Open Narrative.1",
+        "userProgressGraph": [0, 0, 0, 0, 0, 0, 0, 3]
+    },
+    "eventType": "userProgressStatusEvent"
+}, {
+    "id": 1036787,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "",
+    "timestamp": "2019-05-28T18:50:51.399Z",
+    "encounterId": 1661821416,
+    "variableName": "PERMANENT_SCORE",
+    "variableValue": 2,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036788,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "",
+    "timestamp": "2019-05-28T18:50:51.401Z",
+    "encounterId": 1661821416,
+    "variableName": "AUTHORITY",
+    "variableValue": 2,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036789,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "",
+    "timestamp": "2019-05-28T18:50:51.454Z",
+    "encounterId": 1661821416,
+    "variableName": "TRUST",
+    "variableValue": 3,
+    "eventType": "variableUpdateEvent"
+}, {
+    "id": 1036790,
+    "sessionId": 18337,
+    "speaker": "coach",
+    "target": "C3PO-Generator",
+    "timestamp": "2019-05-28T18:50:51.458Z",
+    "encounterId": 1661821416,
+    "SocialChecklistItem": {
+        "id": 136093,
+        "name": "Social",
+        "isSatisfied": true,
+        "triggeredCount": 1
+    },
+    "ReasonForVisitChecklistItem": {
+        "id": 136094,
+        "name": "Reason For Visit",
+        "isSatisfied": true
+    },
+    "NarrativeChecklistItem": {
+        "id": 136095,
+        "name": "Narrative",
+        "isSatisfied": true,
+        "triggeredCount": 1,
+        "totalCrossRefItemsCount": 0,
+        "totalCount": 3
+    },
+    "HPIChecklistItem": {
+        "id": 136096,
+        "name": "HPI",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 3
+    },
+    "MHChecklistItem": {
+        "id": 136097,
+        "name": "MH",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 0
+    },
+    "ROSChecklistItem": {
+        "id": 136098,
+        "name": "ROS",
+        "isSatisfied": false,
+        "triggeredCount": 0,
+        "totalCount": 6
+    },
+    "eventType": "ChecklistEvent"
+}]
